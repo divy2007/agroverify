@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroVerify — Agricultural Integrity & SATHI Verification Platform</title>
+  <meta name="description" content="Authenticate seeds, fertilizers, and pesticides against official SATHI government registry data in under 2 seconds. Protect your yield before you sow.">
+  <meta name="theme-color" content="#183D2B">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="AgroVerify — Agricultural Integrity Platform">
+  <meta property="og:description" content="Protecting Indian farmers from counterfeit seeds, fertilizers, and pesticides with official SATHI database integration.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       TOP GOVERNMENT & CONNECTIVITY STRIP
+       ========================================================================== -->
+  <div class="top-gov-strip">
+    <div class="container">
+      <div class="gov-affiliate">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9822B" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+          <path d="M2 12h20"></path>
+        </svg>
+        <span data-i18n="top_gov_tag">Official Initiative Aligned with Govt SATHI Registry & Digital Agriculture Mission</span>
+      </div>
+      <div class="offline-sync-pill" id="offlineSyncPill" onclick="toggleOfflineMode()" title="Click to toggle Offline Simulation Mode">
+        <span class="pulse-dot" style="background:#4ade80;"></span>
+        <span data-i18n="offline_pill_online">● Online (SATHI v2.4 Live Sync)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       NAVIGATION BAR
+       ========================================================================== -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <!-- Logo -->
+      <a href="#" class="brand-logo" aria-label="AgroVerify Home">
+        <div class="logo-icon-wrap">
+          <!-- Stylized Leaf intersecting Checkmark & QR Node -->
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 22C6 14.268 12.268 8 20 8C20 15.732 13.732 22 6 22Z" fill="#D9822B" opacity="0.3"/>
+            <path d="M4 24C4 13.5 13.5 4 24 4C24 14.5 14.5 24 4 24Z" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 24L15 13" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M11 16L15 20L23 11" stroke="#4ade80" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="21" cy="7" r="2" fill="#D9822B"/>
+          </svg>
+        </div>
+        <div class="logo-text-group">
+          <div class="logo-title">Agro<span>Verify</span></div>
+          <div class="logo-subtitle">SATHI Input Integrity</div>
+        </div>
+      </a>
+
+      <!-- Center Nav Links -->
+      <ul class="nav-links">
+        <li><a href="#how-it-works" class="nav-link" data-i18n="nav_how">How It Works</a></li>
+        <li><a href="#batch-checker" class="nav-link" data-i18n="nav_checker">Batch Checker</a></li>
+        <li><a href="#dealers-surveillance" class="nav-link" data-i18n="nav_dealers">For Dealers</a></li>
+        <li><a href="#problem-stats" class="nav-link" data-i18n="nav_impact">Impact (SDG 2)</a></li>
+        <li><a href="#officer-surveillance" class="nav-link" onclick="openOfficerPortal()" data-i18n="nav_officer">Officer Portal</a></li>
+      </ul>
+
+      <!-- Right Nav Actions -->
+      <div class="nav-actions">
+        <!-- Multilingual Language Selector -->
+        <div class="lang-selector-wrap">
+          <button class="lang-btn" id="langBtn" aria-label="Change Language">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span id="currentLangLabel">English</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="lang-menu" id="langMenu">
+            <button class="lang-option active" data-lang="en">English <span>EN</span></button>
+            <button class="lang-option" data-lang="gu">ગુજરાતી <span>GU</span></button>
+            <button class="lang-option" data-lang="hi">हिन्दी <span>HI</span></button>
+            <button class="lang-option" data-lang="mr">मराठी <span>MR</span></button>
+          </div>
+        </div>
+
+        <!-- Verify CTA -->
+        <a href="#batch-checker" class="btn-primary" data-i18n="nav_verify_btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Verify Batch Now
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       HERO SECTION & INTERACTIVE VERIFICATION CARD
+       ========================================================================== -->
+  <section class="hero-section" id="batch-checker">
+    <div class="container">
+      <div class="hero-grid">
+        
+        <!-- Left: Headline & Value Proposition -->
+        <div class="hero-content">
+          <div class="hero-pill-row">
+            <div class="badge badge-sathi">
+              <span class="pulse-dot"></span>
+              <span data-i18n="badge_sync">SATHI Registry v2.4</span>
+            </div>
+            <div class="badge badge-ochre" data-i18n="badge_caching">
+              Works Offline via Caching
+            </div>
+          </div>
+
+          <h1 class="hero-title">
+            <span data-i18n="hero_headline">Verify Before You Sow. Zero Counterfeit Inputs.</span>
+          </h1>
+
+          <p class="hero-subtitle" data-i18n="hero_subheadline">
+            Instantly authenticate seeds, fertilizers, and pesticides against official SATHI government registry data in under 2 seconds. Protect your yield before investing a single rupee.
+          </p>
+
+          <!-- Badges Strip -->
+          <div class="hero-badges-strip">
+            <div class="mini-feature-tag">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Instant SATHI Certification</span>
+            </div>
+            <div class="mini-feature-tag">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span data-i18n="badge_ivr">Free Toll-Free IVR (1800-843-AGRO)</span>
+            </div>
+            <div class="mini-feature-tag">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <span>Zero App Download Needed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Live Verification Portal Card -->
+        <div class="verification-card-outer">
+          <div class="verification-card-header">
+            <div class="verification-title-group">
+              <h3>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary-moss)" stroke-width="2.5">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                AgroVerify Portal
+              </h3>
+              <p>Direct Gateway to National SATHI Database</p>
+            </div>
+            <div class="badge badge-genuine">
+              <span>● Live Gateway</span>
+            </div>
+          </div>
+
+          <!-- Tabs: Enter Code vs Scan QR -->
+          <div class="verify-tabs-nav" role="tablist">
+            <button class="verify-tab-btn active" data-tab="tab-code" role="tab" aria-selected="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="17" y2="12"></line><line x1="7" y1="16" x2="12" y2="16"></line></svg>
+              <span data-i18n="tab_enter_code">Enter Batch Code</span>
+            </button>
+            <button class="verify-tab-btn" data-tab="tab-qr" role="tab" aria-selected="false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span data-i18n="tab_scan_qr">Upload / Scan QR</span>
+            </button>
+          </div>
+
+          <!-- TAB 1: Enter Batch Code -->
+          <div class="verify-tab-pane active" id="tab-code">
+            <div class="batch-input-wrapper">
+              <svg class="batch-input-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="17" y2="12"></line></svg>
+              <input 
+                type="text" 
+                class="batch-input-field" 
+                id="batchCodeInput" 
+                placeholder="Enter Batch Code (e.g. SB-2026-9941X)" 
+                data-i18n-placeholder="batch_placeholder"
+                value="SB-2026-9941X" 
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button class="batch-input-clear visible" id="btnClearBatchInput" aria-label="Clear code">✕</button>
+            </div>
+
+            <!-- Sample Presets for Quick Evaluation -->
+            <div class="sample-presets-label" data-i18n="label_quick_try">Try Sample Batches:</div>
+            <div class="sample-presets-list">
+              <button class="sample-preset-btn tag-genuine" data-code="SB-2026-9941X" data-i18n="preset_genuine_seed">
+                🌱 Genuine Cotton Seed
+              </button>
+              <button class="sample-preset-btn tag-fake" data-code="CT-2025-0144F" data-i18n="preset_fake_pest">
+                ⚠️ Fake Pesticide Alert
+              </button>
+              <button class="sample-preset-btn" data-code="EX-2023-8821Z" data-i18n="preset_exp_fert">
+                ⏳ Expired Fertilizer
+              </button>
+              <button class="sample-preset-btn tag-fake" data-code="SP-2026-1029C" data-i18n="preset_cloned_qr">
+                🚨 Cloned QR Fraud
+              </button>
+            </div>
+
+            <button class="btn-accent verify-action-btn" id="btnCheckBatch">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span data-i18n="btn_check">Check Authenticity</span>
+            </button>
+          </div>
+
+          <!-- TAB 2: Upload / Scan QR -->
+          <div class="verify-tab-pane" id="tab-qr">
+            <div class="qr-scanner-zone" id="qrDropZone">
+              <input type="file" id="qrFileInput" accept="image/*" style="display:none;" />
+              <div class="qr-zone-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              </div>
+              <h4>Drop packet QR photo here or Click to Browse</h4>
+              <p>Works with low-light shop photos and partial QR barcodes</p>
+              
+              <div class="qr-options-btns">
+                <button class="btn-primary" id="btnStartCamera" type="button">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                  Open Camera Scanner
+                </button>
+              </div>
+            </div>
+
+            <!-- Camera Scanning Animation Overlay -->
+            <div class="camera-scanner-view" id="cameraScannerView">
+              <video class="camera-video-element" id="cameraVideo" playsinline autoplay muted></video>
+              <div class="scanner-reticle">
+                <div class="scanner-laser"></div>
+              </div>
+              <button class="scanner-close-btn" id="btnCloseCamera" aria-label="Close Camera">✕</button>
+              <p style="margin-top:12px; font-size:0.85rem; font-weight:600;">Point camera at seed or fertilizer packet QR code...</p>
+            </div>
+
+            <!-- Preset QR quick clicks -->
+            <div style="margin-top: 14px;">
+              <span class="sample-presets-label">Simulate Sample QR Code:</span>
+              <div class="sample-presets-list" style="margin-top:6px;">
+                <button class="sample-preset-btn tag-genuine" onclick="testPresetQR('SB-2026-9941X')">📷 Scan Genuine QR</button>
+                <button class="sample-preset-btn tag-fake" onclick="testPresetQR('CT-2025-0144F')">📷 Scan Counterfeit QR</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Bar Indicator -->
+          <div class="verification-progress-bar" id="verificationProgress">
+            <div class="progress-status-text">
+              <span id="progressText">Connecting to SATHI National Registry Gateway...</span>
+              <span>In under 2s</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <!-- Live Result Card Container (Genuine / Counterfeit) -->
+          <div class="verification-result-wrapper" id="verificationResult">
+            <!-- Dynamically populated via app.js -->
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       THE PROBLEM AT A GLANCE (Stats Strip) & RISK CALCULATOR
+       ========================================================================== -->
+  <section class="stats-section" id="problem-stats">
+    <div class="container">
+      <div class="section-head">
+        <div class="badge badge-ochre">Agricultural Crisis in Numbers</div>
+        <h2>The Epidemic of Counterfeit Agri-Inputs</h2>
+        <p>Before sowing begins, Indian farmers spend up to 40% of their seasonal budget on inputs with zero point-of-sale verification power.</p>
+      </div>
+
+      <!-- 3 Key Metric Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          </div>
+          <div class="stat-number" data-i18n="stat_1_val">₹8,000 - ₹12,000</div>
+          <div class="stat-title" data-i18n="stat_1_title">Per-Acre Financial Loss</div>
+          <p class="stat-desc" data-i18n="stat_1_desc">Average net financial loss borne by a smallholder farmer due to low germination, dead fertilizer, and toxic pesticide adulterants.</p>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          </div>
+          <div class="stat-number" data-i18n="stat_2_val">1-in-8 Batches</div>
+          <div class="stat-title" data-i18n="stat_2_title">Substandard Seed Rate</div>
+          <p class="stat-desc" data-i18n="stat_2_desc">Over 12.5% of retail seed lots fail statutory germination standards in state quality inspections, causing total replanting losses.</p>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+          </div>
+          <div class="stat-number" data-i18n="stat_3_val">32,525+ Samples</div>
+          <div class="stat-title" data-i18n="stat_3_title">Illegal Chemicals Seized</div>
+          <p class="stat-desc" data-i18n="stat_3_desc">Spurious chemical lots, banned insecticides, and duplicate bags confiscated annually by state flying enforcement squads.</p>
+        </div>
+      </div>
+
+      <!-- Interactive Acreage Risk Calculator Widget -->
+      <div class="risk-calc-card">
+        <div class="risk-calc-content">
+          <div class="badge badge-ochre" style="margin-bottom:12px;">Farmer Savings Calculator</div>
+          <h3 data-i18n="calc_title">Calculate Your Sowing Season Risk Exposure</h3>
+          <p data-i18n="calc_subtitle">See how much seasonal investment and yield you safeguard by authenticating every bag before purchase.</p>
+
+          <div class="calc-inputs-group">
+            <div class="calc-field-group">
+              <label>
+                <span data-i18n="label_farm_size">Your Farm Size:</span>
+                <span id="farmAcreDisplay" style="color:#f7a456; font-weight:800;">5 Acres</span>
+              </label>
+              <input type="range" class="calc-range-slider" id="farmAcreageSlider" min="1" max="50" value="5" />
+            </div>
+
+            <div class="calc-field-group">
+              <label data-i18n="label_crop_type">Select Crop:</label>
+              <select class="calc-crop-select" id="calcCropSelect">
+                <option value="cotton">Bt Cotton (કપાસ / कपास)</option>
+                <option value="wheat">Certified Wheat (ઘઉં / गेहूं)</option>
+                <option value="mustard">Hybrid Mustard (રાયડો / सरसों)</option>
+                <option value="soybean">Soybean (સોયાબીન / सोयाबीन)</option>
+                <option value="paddy">Basmati / Hybrid Paddy (ડાંગર / धान)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="risk-calc-result-box">
+          <div class="calc-loss-label" data-i18n="label_potential_loss">Potential Crop Loss Prevented</div>
+          <div class="calc-loss-value" id="calcLossValue">₹57,500</div>
+          <p style="font-size:0.85rem; color:#d2ded7;">By checking authenticity before handing cash to the dealer.</p>
+
+          <div class="calc-substats">
+            <div class="calc-substat-item">
+              <span>Input Spend Protected:</span>
+              <strong id="calcInputInvestment">₹47,500</strong>
+            </div>
+            <div class="calc-substat-item">
+              <span>Estimated Crop Value:</span>
+              <strong id="calcProtectedYield">₹2,40,000</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       HOW IT WORKS (3 Simple Steps)
+       ========================================================================== -->
+  <section class="how-it-works-section" id="how-it-works">
+    <div class="container">
+      <div class="section-head">
+        <div class="badge badge-sathi">Point-of-Sale Verification</div>
+        <h2>How AgroVerify Protects Farmers in 3 Steps</h2>
+        <p>Simple enough for any farmer to use in under 15 seconds at the local input shop.</p>
+      </div>
+
+      <div class="steps-timeline-grid">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-number-badge">1</div>
+          <h3 data-i18n="step_1_title">1. Scan or Dial</h3>
+          <p data-i18n="step_1_desc">Scan packet QR code via mobile web or dial our toll-free IVR number 1800-843-AGRO from any keypad phone before paying the retailer.</p>
+          <div class="step-visual-box">
+            <div class="icon-row">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              QR Scanner or Toll-Free Call
+            </div>
+            <span>Works in low-light shops and offline zero-network zones.</span>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-number-badge">2</div>
+          <h3 data-i18n="step_2_title">2. SATHI Cross-Reference</h3>
+          <p data-i18n="step_2_desc">Batch signature is instantly checked against government seed and fertilizer registries with offline cache fallback.</p>
+          <div class="step-visual-box">
+            <div class="icon-row">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              Cryptographic HMAC Validation
+            </div>
+            <span>Verifies producer license, lab germination %, and lot allocation.</span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="step-number-badge">3</div>
+          <h3 data-i18n="step_3_title">3. Clear Verdict</h3>
+          <p data-i18n="step_3_desc">Green for authentic batch with purity specs; Red warning for counterfeit with 1-tap district officer reporting.</p>
+          <div class="step-visual-box">
+            <div class="icon-row">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Actionable Color Signals
+            </div>
+            <span>Download certificate or trigger instant inspection raid dispatch.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       DUAL ACCESS SHOWCASE (Smartphone PWA vs Feature Phone IVR)
+       ========================================================================== -->
+  <section class="dual-access-section" id="dual-access">
+    <div class="container">
+      <div class="section-head">
+        <div class="badge badge-ochre">Universal Accessibility</div>
+        <h2 data-i18n="ivr_headline">Dual Access: Smartphone Web & Feature Phone IVR</h2>
+        <p data-i18n="ivr_sub">Every Indian farmer is covered. No internet or smartphone required.</p>
+      </div>
+
+      <div class="dual-access-grid">
+        
+        <!-- Left: Smartphone PWA Mockup -->
+        <div class="channel-card">
+          <div class="channel-card-head">
+            <div class="channel-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+            </div>
+            <div>
+              <h3>Smartphone Web / PWA App</h3>
+              <p style="font-size:0.85rem;">Fast 2-second visual scan with offline caching</p>
+            </div>
+          </div>
+
+          <div class="smartphone-frame">
+            <div class="smartphone-screen">
+              <div class="smartphone-app-header">
+                <strong style="color:var(--primary-moss); font-size:0.9rem;">AgroVerify Mobile</strong>
+                <span class="badge badge-sathi" style="padding:2px 8px; font-size:0.7rem;">SATHI v2.4</span>
+              </div>
+              <div class="smart-scan-box">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary-moss)" stroke-width="2" style="margin-bottom:6px;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                <div style="font-size:0.8rem; font-weight:700;">Batch: SB-2026-9941X</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">Verified against SATHI Node</div>
+              </div>
+              <div class="smart-pill-genuine">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>GENUINE: 88% Germination Passed</span>
+              </div>
+              <div style="margin-top:10px; font-size:0.72rem; color:var(--text-light); text-align:center;">
+                Producer: Gujarat State Seeds Corp
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Feature Phone IVR Simulator -->
+        <div class="channel-card">
+          <div class="channel-card-head">
+            <div class="channel-icon" style="background:var(--accent-ochre-light); color:var(--accent-ochre);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </div>
+            <div>
+              <h3>Interactive Toll-Free IVR Simulator</h3>
+              <p style="font-size:0.85rem;">Click keys below to hear audio synthesized verification!</p>
+            </div>
+          </div>
+
+          <!-- Feature Phone Interactive Mockup -->
+          <div class="feature-phone-wrapper">
+            <!-- LCD Screen -->
+            <div class="feature-phone-screen">
+              <div class="ivr-status-line" id="ivrStatusLine">READY: 1800-843-AGRO</div>
+              <div class="ivr-screen-text" id="ivrScreenText">Press DIAL (Green) or '1' to start live interactive IVR verification.</div>
+              <div class="ivr-waveform-container">
+                <div class="ivr-wave-bar"></div>
+                <div class="ivr-wave-bar"></div>
+                <div class="ivr-wave-bar"></div>
+                <div class="ivr-wave-bar"></div>
+                <div class="ivr-wave-bar"></div>
+                <div class="ivr-wave-bar"></div>
+              </div>
+            </div>
+
+            <!-- Action Keys -->
+            <div class="phone-action-keys">
+              <button class="call-btn" id="ivrCallBtn" title="Dial 1800-843-AGRO">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                DIAL CALL
+              </button>
+              <button class="end-btn" id="ivrEndBtn" title="End call">
+                END
+              </button>
+            </div>
+
+            <!-- 12 Keypad Grid -->
+            <div class="phone-keypad-grid">
+              <button class="keypad-btn" data-key="1"><span class="keypad-number">1</span><span class="keypad-sub">Gujarati</span></button>
+              <button class="keypad-btn" data-key="2"><span class="keypad-number">2</span><span class="keypad-sub">Hindi</span></button>
+              <button class="keypad-btn" data-key="3"><span class="keypad-number">3</span><span class="keypad-sub">Marathi</span></button>
+              <button class="keypad-btn" data-key="4"><span class="keypad-number">4</span><span class="keypad-sub">English</span></button>
+              <button class="keypad-btn" data-key="5"><span class="keypad-number">5</span><span class="keypad-sub">JKL</span></button>
+              <button class="keypad-btn" data-key="6"><span class="keypad-number">6</span><span class="keypad-sub">MNO</span></button>
+              <button class="keypad-btn" data-key="7"><span class="keypad-number">7</span><span class="keypad-sub">PQRS</span></button>
+              <button class="keypad-btn" data-key="8"><span class="keypad-number">8</span><span class="keypad-sub">TUV</span></button>
+              <button class="keypad-btn" data-key="9"><span class="keypad-number">9</span><span class="keypad-sub">WXYZ</span></button>
+              <button class="keypad-btn" data-key="*"><span class="keypad-number">*</span><span class="keypad-sub">Clear</span></button>
+              <button class="keypad-btn" data-key="0"><span class="keypad-number">0</span><span class="keypad-sub">+</span></button>
+              <button class="keypad-btn" data-key="#"><span class="keypad-number">#</span><span class="keypad-sub">Enter</span></button>
+            </div>
+          </div>
+
+          <div class="ivr-interactive-guide">
+            <strong>How to test this live keypad:</strong>
+            <ol>
+              <li>Click <strong>DIAL CALL</strong> to connect.</li>
+              <li>Press <strong>1</strong> for Gujarati, <strong>2</strong> for Hindi, or <strong>4</strong> for English.</li>
+              <li>Enter any numbers and press <strong>#</strong> to hear the voice announcement.</li>
+            </ol>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       DEALER & OFFICER SURVEILLANCE MODULE
+       ========================================================================== -->
+  <section class="surveillance-section" id="dealers-surveillance">
+    <div class="container">
+      <div class="section-head">
+        <div class="badge badge-sathi">B2B & Enforcement Intelligence</div>
+        <h2>Dealer & Officer Surveillance Hub</h2>
+        <p>Real-time counterfeit cluster tracking for agriculture officers and certified compliance badges for authorized rural dealers.</p>
+      </div>
+
+      <!-- Navigation tabs between Heatmap and Certified Directory -->
+      <div class="surveillance-tabs">
+        <button class="surv-tab-btn active" data-view="view-heatmap">
+          🗺️ Hotspot Map & Officer Dashboard
+        </button>
+        <button class="surv-tab-btn" data-view="view-dealers">
+          🏪 Certified Trusted Dealer Directory
+        </button>
+      </div>
+
+      <!-- VIEW 1: Heatmap & Officer Feed -->
+      <div class="surv-view-pane active" id="view-heatmap">
+        <div class="heatmap-layout-grid">
+          
+          <!-- District Hotspots Selector Grid -->
+          <div class="map-card">
+            <div class="map-card-head">
+              <div>
+                <h3>Counterfeit Cluster Surveillance</h3>
+                <p style="font-size:0.85rem;">Click any agricultural district to inspect enforcement telemetry:</p>
+              </div>
+              <button class="btn-primary" onclick="exportEnforcementCSV()" style="font-size:0.82rem; padding:8px 14px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Export CSV Report
+              </button>
+            </div>
+
+            <div class="map-district-grid">
+              <!-- Rajkot -->
+              <div class="district-hotspot-item selected" data-district="rajkot">
+                <div class="district-title-row">
+                  <strong>Rajkot District</strong>
+                  <span class="badge badge-danger">High Alert</span>
+                </div>
+                <div class="district-substats">
+                  <span>Seized: 1,420 kg Seeds / 840 L Chemicals</span>
+                  <span>Active Squads: 4 Raids Deployed</span>
+                </div>
+              </div>
+
+              <!-- Mansa / Gandhinagar -->
+              <div class="district-hotspot-item" data-district="mansa">
+                <div class="district-title-row">
+                  <strong>Mansa / Gandhinagar</strong>
+                  <span class="badge badge-ochre">Moderate</span>
+                </div>
+                <div class="district-substats">
+                  <span>Seized: 350 kg Wheat Lots</span>
+                  <span>Active Squads: 1 Routine Inspection</span>
+                </div>
+              </div>
+
+              <!-- Bhatinda -->
+              <div class="district-hotspot-item" data-district="bhatinda">
+                <div class="district-title-row">
+                  <strong>Bhatinda (Punjab)</strong>
+                  <span class="badge badge-danger">High Alert</span>
+                </div>
+                <div class="district-substats">
+                  <span>Seized: 2,800 L Chlorpyrifos Imitations</span>
+                  <span>Active Squads: 6 Joint Raids</span>
+                </div>
+              </div>
+
+              <!-- Nashik -->
+              <div class="district-hotspot-item" data-district="nashik">
+                <div class="district-title-row">
+                  <strong>Nashik Grape Belt</strong>
+                  <span class="badge badge-ochre">Moderate</span>
+                </div>
+                <div class="district-substats">
+                  <span>Seized: 410 L Bio-stimulants</span>
+                  <span>Active Squads: 2 Flying Squads</span>
+                </div>
+              </div>
+
+              <!-- Anand (Clean Hub) -->
+              <div class="district-hotspot-item safe-district" data-district="anand" style="grid-column: span 2;">
+                <div class="district-title-row">
+                  <strong>Anand Agro Hub (Certified Clean Zone)</strong>
+                  <span class="badge badge-genuine">98.4% Compliant</span>
+                </div>
+                <div class="district-substats">
+                  <span>Zero Counterfeit Batches Detected • All 142 Dealers SATHI Verified</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Selected District Intelligence Summary -->
+            <div style="background:var(--bg-cream); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h4 id="selectedDistrictTitle" style="color:var(--primary-moss); font-size:1.1rem;">Rajkot District (Saurashtra)</h4>
+                <span class="badge badge-danger" id="selectedDistrictRisk">HIGH ALERT</span>
+              </div>
+              <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; font-size:0.85rem;">
+                <div>Confiscated Stock: <strong id="selectedDistrictSeized">1,420 kg Seeds / 840 L Chemicals</strong></div>
+                <div>Enforcement: <strong id="selectedDistrictRaids">4 Active Squads Deployed</strong></div>
+                <div>Flagged Retailers: <strong id="selectedDistrictVendors">8 Retailers Suspended</strong></div>
+                <div>Hotspot Clusters: <strong id="selectedDistrictHotspots">Gondal, Jasdan, Jetpur Mandi</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Officer Dispatch Feed -->
+          <div class="officer-feed-card" id="officer-surveillance">
+            <div class="feed-title-row">
+              <div>
+                <h3>Officer Live Alert Feed</h3>
+                <span style="font-size:0.8rem; color:var(--text-muted);">Real-time crowd-sourced counterfeit detections</span>
+              </div>
+              <span class="pulse-dot" style="background:#ef4444;"></span>
+            </div>
+
+            <div class="feed-items-scroll">
+              <!-- Item 1 -->
+              <div class="feed-item" id="feedItem-1">
+                <div class="feed-item-top">
+                  <span style="color:var(--status-counterfeit);">RAJKOT • GONDAL MANDI</span>
+                  <span style="color:var(--text-muted);">4 mins ago</span>
+                </div>
+                <p>3 farmers flagged duplicate batch <strong>CT-2025-0144F</strong> at "Kisan Agro Store". QR code reused 48 times.</p>
+                <div class="feed-item-actions">
+                  <span class="badge badge-danger" style="font-size:0.75rem;">Suspect Pesticide</span>
+                  <button class="btn-dispatch-raid" onclick="dispatchRaid(1, 'Gondal Mandi, Rajkot')">Dispatch Inspection Squad</button>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="feed-item" id="feedItem-2">
+                <div class="feed-item-top">
+                  <span style="color:var(--status-counterfeit);">BHATINDA • RAMPURA</span>
+                  <span style="color:var(--text-muted);">18 mins ago</span>
+                </div>
+                <p>Fake Bt Cotton seed bags reported with invalid SATHI certificate signature. Germination failure risk.</p>
+                <div class="feed-item-actions">
+                  <span class="badge badge-danger" style="font-size:0.75rem;">Cloned Lot</span>
+                  <button class="btn-dispatch-raid" onclick="dispatchRaid(2, 'Rampura, Bhatinda')">Dispatch Inspection Squad</button>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="feed-item" id="feedItem-3">
+                <div class="feed-item-top">
+                  <span style="color:var(--accent-ochre);">NASHIK • MALEGAON</span>
+                  <span style="color:var(--text-muted);">42 mins ago</span>
+                </div>
+                <p>Expired liquid bio-fertilizer lot <strong>EX-2023-8821Z</strong> being sold past statutory expiry date.</p>
+                <div class="feed-item-actions">
+                  <span class="badge badge-ochre" style="font-size:0.75rem;">Expired Input</span>
+                  <button class="btn-dispatch-raid" onclick="dispatchRaid(3, 'Malegaon, Nashik')">Dispatch Inspection Squad</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- VIEW 2: Certified Trusted Dealer Directory -->
+      <div class="surv-view-pane" id="view-dealers">
+        <div class="dealer-filter-bar">
+          <input type="text" class="dealer-search-input" id="dealerSearchInput" placeholder="🔍 Search authorized dealer by name or taluka..." />
+          <select class="form-select" id="dealerDistrictFilter" style="max-width:240px;">
+            <option value="all">All Certified Districts</option>
+            <option value="rajkot">Rajkot District</option>
+            <option value="anand">Anand District</option>
+            <option value="gandhinagar">Gandhinagar / Mansa</option>
+            <option value="nashik">Nashik</option>
+          </select>
+        </div>
+
+        <div class="dealer-cards-grid">
+          <!-- Dealer 1 -->
+          <div class="dealer-card" data-district="rajkot">
+            <div class="dealer-badge-top">
+              <span class="badge badge-genuine">✓ SATHI Certified Dealer</span>
+              <span style="font-size:0.8rem; font-weight:700; color:var(--status-genuine);">Rating 4.9 ★</span>
+            </div>
+            <h4>Kisan Suvidha Kendra</h4>
+            <span class="dealer-license-tag">LIC: GUJ-RJK-SEED-8849</span>
+            <ul class="dealer-info-list">
+              <li>📍 Near APMC Market Yard, Gondal Road, Rajkot</li>
+              <li>🌱 Authorized Gurjari Seeds & IFFCO Fertilizers</li>
+              <li>📞 +91 98250 XXXXX (Verified Contact)</li>
+              <li>🛡️ 100% Batches Digitally Reconciled</li>
+            </ul>
+            <button class="btn-outline" style="font-size:0.85rem;" onclick="showToast('Dealer SATHI License GUJ-RJK-SEED-8849 verified active.', 'success')">Verify Govt License</button>
+          </div>
+
+          <!-- Dealer 2 -->
+          <div class="dealer-card" data-district="anand">
+            <div class="dealer-badge-top">
+              <span class="badge badge-genuine">✓ SATHI Certified Dealer</span>
+              <span style="font-size:0.8rem; font-weight:700; color:var(--status-genuine);">Rating 4.95 ★</span>
+            </div>
+            <h4>Sardar Krishi Seva Kendra</h4>
+            <span class="dealer-license-tag">LIC: GUJ-AND-FERT-1022</span>
+            <ul class="dealer-info-list">
+              <li>📍 Station Road, Anand Central Hub, Gujarat</li>
+              <li>🌱 Primary GSFC Urea & DAP Depot</li>
+              <li>📞 +91 94260 XXXXX</li>
+              <li>🛡️ Direct Warehouse Blockchain Sync</li>
+            </ul>
+            <button class="btn-outline" style="font-size:0.85rem;" onclick="showToast('Dealer SATHI License GUJ-AND-FERT-1022 verified active.', 'success')">Verify Govt License</button>
+          </div>
+
+          <!-- Dealer 3 -->
+          <div class="dealer-card" data-district="gandhinagar">
+            <div class="dealer-badge-top">
+              <span class="badge badge-genuine">✓ SATHI Certified Dealer</span>
+              <span style="font-size:0.8rem; font-weight:700; color:var(--status-genuine);">Rating 4.8 ★</span>
+            </div>
+            <h4>Mansa Taluka Cooperative Purchase & Sale Union</h4>
+            <span class="dealer-license-tag">LIC: GUJ-GND-COOP-4412</span>
+            <ul class="dealer-info-list">
+              <li>📍 APMC Compound, Mansa, Gandhinagar</li>
+              <li>🌱 Certified NSC Wheat & Mustard Lots</li>
+              <li>📞 +91 98790 XXXXX</li>
+              <li>🛡️ Subsidized DBT Aadhaar Verification Point</li>
+            </ul>
+            <button class="btn-outline" style="font-size:0.85rem;" onclick="showToast('Dealer SATHI License GUJ-GND-COOP-4412 verified active.', 'success')">Verify Govt License</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MODAL 1: 1-TAP REPORT TO DISTRICT AGRI OFFICER
+       ========================================================================== -->
+  <div class="modal-backdrop" id="reportModal">
+    <div class="modal-window">
+      <button class="modal-close-btn" onclick="closeReportModal()" aria-label="Close modal">✕</button>
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+        <span class="badge badge-danger">High Priority Grievance</span>
+      </div>
+      <h3 style="font-size:1.4rem; color:var(--primary-moss); margin-bottom:6px;">Report Counterfeit to District Agri Officer</h3>
+      <p style="font-size:0.88rem; margin-bottom:20px;">Lodge an immediate confidential complaint. Triggers a mandatory random inspection under the Seeds Act 1966 and Insecticides Act 1968.</p>
+
+      <form onsubmit="handleReportSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Flagged Batch Code:</label>
+          <input type="text" class="form-input" id="reportBatchCode" required value="CT-2025-0144F" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Shop / Dealer Name & Village:</label>
+          <input type="text" class="form-input" placeholder="e.g. Kisan Agro Store, Gondal Road" required value="Kisan Agro Store, Gondal Road, Rajkot" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Incident Geo-Location:</label>
+          <div style="display:flex; gap:8px;">
+            <input type="text" class="form-input" id="reportLocation" value="Rajkot District, Gujarat" required />
+            <button type="button" class="btn-outline" onclick="detectLocation()" style="white-space:nowrap; padding:0 14px;">📍 Auto GPS</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Your Mobile Number (For SMS Tracking):</label>
+          <input type="tel" class="form-input" placeholder="10-digit mobile number" required value="9876543210" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Attach Photo of Packet / Invoice (Optional):</label>
+          <input type="file" class="form-input" accept="image/*" />
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:24px;">
+          <button type="button" class="btn-outline" onclick="closeReportModal()" style="flex:1;">Cancel</button>
+          <button type="submit" class="btn-report-alert" style="flex:2;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Dispatch Grievance to Agri Officer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: PRINTABLE SATHI VERIFICATION CERTIFICATE
+       ========================================================================== -->
+  <div class="modal-backdrop" id="certificateModal">
+    <div class="modal-window" style="max-width:680px;">
+      <button class="modal-close-btn" onclick="closeCertificateModal()" aria-label="Close modal">✕</button>
+      <div id="certSheetContainer">
+        <!-- Rendered dynamically via app.js -->
+      </div>
+      <div style="display:flex; gap:12px; justify-content:flex-end;">
+        <button class="btn-outline" onclick="closeCertificateModal()">Close</button>
+        <button class="btn-primary" onclick="printCertificate()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Print / Save PDF Certificate
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: OFFICER PORTAL AUTHENTICATION & SURVEILLANCE
+       ========================================================================== -->
+  <div class="modal-backdrop" id="officerModal">
+    <div class="modal-window">
+      <button class="modal-close-btn" onclick="closeOfficerPortal()" aria-label="Close modal">✕</button>
+      <div class="badge badge-sathi" style="margin-bottom:12px;">Officer Surveillance Portal</div>
+      <h3 style="font-size:1.4rem; color:var(--primary-moss); margin-bottom:6px;">Ministry & Enforcement Access</h3>
+      <p style="font-size:0.88rem; margin-bottom:20px;">Dedicated dashboard for District Agriculture Officers, Quality Control Inspectors, and KVK Scientists.</p>
+
+      <div style="background:var(--bg-cream); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:16px; margin-bottom:20px;">
+        <div style="font-size:0.85rem; font-weight:700; color:var(--primary-moss); margin-bottom:6px;">Demo Officer Credentials Pre-Loaded:</div>
+        <div style="font-size:0.8rem; color:var(--text-muted); font-family:monospace;">
+          Officer ID: DAO-GUJ-RJK-042<br>
+          Jurisdiction: Rajkot & Saurashtra Agro Zone<br>
+          Clearance Level: Tier-1 Enforcement Squad
+        </div>
+      </div>
+
+      <button class="btn-primary" style="width:100%; justify-content:center; margin-bottom:12px;" onclick="closeOfficerPortal(); window.location.hash = '#officer-surveillance'; showToast('Officer Dashboard active: Filtered to Saurashtra zone.', 'success');">
+        Launch Officer Surveillance Console
+      </button>
+      <button class="btn-outline" style="width:100%; justify-content:center;" onclick="exportEnforcementCSV()">
+        Download All-India Seizure Metrics (CSV)
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FOOTER SECTION
+       ========================================================================== -->
+  <footer class="footer-section">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <!-- Col 1: Mission & UN SDG 2 -->
+        <div class="footer-brand">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="logo-icon-wrap" style="width:36px; height:36px;">
+              <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+                <path d="M4 24C4 13.5 13.5 4 24 4C24 14.5 14.5 24 4 24Z" stroke="#FFFFFF" stroke-width="2.5"/>
+                <path d="M11 16L15 20L23 11" stroke="#4ade80" stroke-width="2.8"/>
+              </svg>
+            </div>
+            <h3 style="margin:0; font-size:1.4rem;">AgroVerify</h3>
+          </div>
+          <p>
+            An open agritech integrity platform extending government SATHI database transparency directly into the hands of 140 million Indian farmers before purchase.
+          </p>
+          <div class="sdg-badge-wrap">
+            <div class="sdg-badge-icon">SDG 2</div>
+            <div class="sdg-badge-text">
+              <strong>UN Sustainable Development Goal 2</strong>
+              <span>Zero Hunger through Seed & Yield Security</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div class="footer-col">
+          <h4>Platform Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#batch-checker">Live Batch Checker</a></li>
+            <li><a href="#how-it-works">3-Step Verification</a></li>
+            <li><a href="#dual-access">Toll-Free IVR Service</a></li>
+            <li><a href="#dealers-surveillance">Certified Dealer Network</a></li>
+            <li><a href="#officer-surveillance">Officer Surveillance Feed</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Legal & Standards -->
+        <div class="footer-col">
+          <h4>Regulatory Standards</h4>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)" onclick="simulateDealerBlacklistNotice('INFO')">Seeds Act 1966 Guidelines</a></li>
+            <li><a href="javascript:void(0)" onclick="simulateDealerBlacklistNotice('INFO')">Fertilizer Control Order 1985</a></li>
+            <li><a href="javascript:void(0)" onclick="simulateDealerBlacklistNotice('INFO')">Insecticides Act 1968 Compliance</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('SATHI (Seed Authentication, Traceability & Holistic Inventory) Open API Gateway v2.4', 'success')">SATHI Open Data Integration</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('KVK Partnership Network: 731 National Centers', 'success')">KVK Training Network</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Farmer Helpline -->
+        <div class="footer-col">
+          <h4>Farmer Emergency Support</h4>
+          <div class="footer-emergency-box">
+            <h5>24x7 Toll-Free Input Helpline</h5>
+            <p>Call from any mobile or feature phone without internet:</p>
+            <div class="footer-phone-cta">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              1800-843-AGRO
+            </div>
+            <span style="font-size:0.75rem; color:#fca593; display:block; margin-top:4px;">(1800-843-2476 • Toll-Free Govt Backed)</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom">
+        <div>
+          © 2026 AgroVerify. Designed for Innovation & Design Thinking (IDT). Open Agriculture Protocol.
+        </div>
+        <div class="dev-credit" data-i18n="footer_built_by">
+          Built by Team Agri_Developers | Silver Oak University
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
